@@ -37,8 +37,7 @@ func postUser(c *gin.Context) {
         return
     }
 
-
-    users=append(users, newUser)
+    users = append(users, newUser)
     c.IndentedJSON(http.StatusCreated, newUser)
 }
 
@@ -46,8 +45,6 @@ func postUser(c *gin.Context) {
 
 func getUserByID(c *gin.Context) {
     id := c.Param("id")
-
-    // Loop ?
     for _, a := range users {
         if a.ID == id {
             c.IndentedJSON(http.StatusOK, a)
@@ -55,27 +52,29 @@ func getUserByID(c *gin.Context) {
         }
     }
     c.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
-
-//PUT[id]
-func updateUserByID(c *gin.Context) {
-    id := c.Params("id")
-    //TBD
-    //if not in slice error?
-
-    if err != nil {
-        c.AbortWithStatus(http.StatusNotFound)
-    } else {
-        c.JSON(http.StatusOK, user)
 }
+//PUT[id]
+func updateUserByID (c *gin.Context) {
+        id := c.Param("id")
+        for _, a := range users {
+            if a.ID == id {
+                c.BindJSON(&a)
+                c.IndetedJSON(http.StatusOK, a)
+                return
+            }
+        }
+        c.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
+    }
 
 //DELETE[id]
 func deleteUserByID(c *gin.Context) {
-    id := c.Param("id")
-
-    users:= Remove(user, users)
-
-    if err != nil {
-        c.IndentedJSON(http.StatusNotFound,  gin.H{"message": "user not found"})
-    } else {
-	c.IndentedJSON(http.StatusOK, nil)
-	    }
+        id := c.Param("id")
+        for i, a := range users {
+            if a.ID == id {
+                users = append(users[:i])
+                c.IndetedJSON(http.StatusNoContent, a)
+                return
+            }
+        }
+        c.IndentedJSON(http.StatusNotFound, gin.H{"message": "user not found"})
+    }
