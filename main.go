@@ -1,19 +1,19 @@
 package main
 
 import (
-    "net/http"
     "github.com/gin-gonic/gin"
+    "net/http"
+    "time"
 )
 
 
-// USERSSS
 type user struct {
-    ID     uuid    `json:"id"`
+    ID     string    `json:"id"`
     FirstName  string  `json:"firstname"`
     LastName string  `json:"lastname"`
     Email string `json:"email"`
-    Age unit `json:"age"`
-    CreatedTime time `json:"createdtime"`
+    Age int `json:"age"`
+    CreatedTime time.Time `json:"createdtime"`
 }
 
 
